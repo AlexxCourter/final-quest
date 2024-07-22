@@ -1,0 +1,53 @@
+.equip {
+    margin: 1rem;
+    background-color: #ccc;
+    border-radius: 6px;
+    box-shadow: 3px 3px 5px gray;
+
+    display: grid;
+    grid-template-columns: 1fr 90px;
+}
+.equip p {
+    grid-column: 1/-1;
+    padding: 0.5rem;
+    padding-bottom: none;
+    font-style: italic;
+    background-color: black;
+    color: white;
+    border-radius: 6px 6px 0 0;
+}
+.equip img {
+    border-radius: 6px;
+    margin: 0.5rem;
+}
+
+.weaponEffect, .armorEffect, .trinketEffect {
+    display: inline-block;
+    border-radius: 6px;
+    padding: 0.5rem;
+    font-variant:small-caps;
+    font-size: 2rem;
+    margin: 0.5rem;
+}
+.atk {
+    background-color: red;
+    color: white;
+}
+.def {
+    background-color: green;
+    color: white;
+}
+.hp {
+    background-color: purple;
+    color: white;
+}
+.spd {
+    background-color: cyan;
+    color: black;
+}
+.value {
+    grid-column: 1/-1;
+    grid-row: 3;
+    text-align: right;
+    margin-right: 0.5rem;
+}

@@ -1,0 +1,33 @@
+.item-card {
+    max-width: 100px;
+    text-align: center;
+    border: 1px solid gray;
+    padding: 0.5rem;
+    box-shadow: 4px 4px 4px gray;
+    font-size: 1.6rem;
+    border-radius: 4px;
+    background: linear-gradient(rgb(255, 255, 199), rgb(202, 202, 165));
+    color: black;
+    position: relative;
+}
+.item-card * {
+    width: 100%;
+}
+
+.item-link {
+    display: block;
+    width: fit-content;
+    height: fit-content;
+}
+
+.equipped {
+    width: fit-content !important;
+    height: fit-content !important;
+    padding: 0.2rem 0.8rem;
+    background-color: darkred;
+    color: white;
+    border-radius: 50%;
+    position: absolute;
+    right: 1px;
+    top: 1px;
+}

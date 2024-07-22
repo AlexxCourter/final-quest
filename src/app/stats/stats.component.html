@@ -1,0 +1,60 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-5 panel panel-default">
+            <h2 class="title">Equipment</h2>
+            <div class="equip">
+                <p>{{weapon? weapon.name : "Empty"}}</p>
+                <img src="{{weaponImg}}" width="100" height="100" alt="{{weapon?.name}}">
+                <div class="parameters">
+                    <div class="effects" *ngFor="let effect of weapon?.effect">
+                        <div class="weaponEffect {{effect.parameter}}">
+                            {{effect.parameter}} <span>{{effect.positive? '+' : '-'}}{{effect.modifier}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="value">{{weapon?.value}}🪙</div>
+            </div>
+            <div class="equip">
+                <p>{{armor? armor.name : "Empty"}}</p>
+                <img src="{{armorImg}}" width="100" height="100" alt="{{armor?.name}}">
+                <div class="parameters">
+                    <div class="effects" *ngFor="let effect of armor?.effect">
+                        <div class="armorEffect {{effect.parameter}}">
+                            {{effect.parameter}} <span>{{effect.positive? '+' : '-'}}{{effect.modifier}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="value">{{armor?.value}}🪙</div>
+            </div>
+            <div class="equip">
+                <p>{{trinket? trinket.name : "Empty"}}</p>
+                <img src="{{trinketImg}}" width="100" height="100" alt="{{trinket?.name}}">
+                <div class="parameters">
+                    <div class="effects" *ngFor="let effect of trinket?.effect">
+                        <div class="trinketEffect {{effect.parameter}}">
+                            {{effect.parameter}} <span>{{effect.positive? '+' : '-'}}{{effect.modifier}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="value">{{trinket?.value}}🪙</div>
+            </div>
+        </div>
+        <div class="col-md-7 panel panel-default">
+            <h2>Stats</h2>
+            <div class="stats">
+                <div class="character-info">
+                    <img id="cimg" src="" width="120" height="120" alt="">
+                    <p id="cname">Jeff</p>
+                    <p id="lvl">Level: 10</p>
+                </div>
+                <div class="character-parameters well">
+                    <p class="hp">HP: 10</p><span id="hp"></span>
+                    <p class="atk">ATK: 14</p><span id="atk"></span>
+                    <p class="def">DEF: 12</p><span id="def"></span>
+                    <p class="spd">SPEED: 6</p><span id="spd"></span>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

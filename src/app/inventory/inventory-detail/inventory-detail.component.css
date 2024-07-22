@@ -1,0 +1,9 @@
+.item-card {
+    border: 1px solid gray;
+    padding: 0.5rem;
+    box-shadow: 4px 4px 4px gray;
+    font-size: 1.6rem;
+    border-radius: 4px;
+    background: linear-gradient(rgb(255, 255, 199), rgb(202, 202, 165));
+    color: black;
+}

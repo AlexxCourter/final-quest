@@ -1,0 +1,15 @@
+<div class="container-fluid well">
+    <div class="row">
+        <div class="col-md-3">
+            <img src="../../../assets/images/treasure-icon.png" alt="" class="img-circle outcome-icon">
+            <p>{{quest.name}}</p>
+        </div>
+        <div class="col-md-4">
+            <p>You go {{direction}} on the path through the {{location}}, and...</p>
+            <p>{{quest.description}}</p>
+
+            <button class="btn btn-warning" type="button" *ngIf="!continue" (click)="onQuest()">{{btnText}}</button>
+            <app-result-handler *ngIf="continue"></app-result-handler>
+        </div>
+    </div>
+</div>

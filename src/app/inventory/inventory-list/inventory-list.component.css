@@ -1,0 +1,18 @@
+#inventory-list {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 1rem;
+}
+
+.title {
+    font-size: 3rem;
+}
+
+#gp {
+    font-size: 2rem;
+    background-color: white;
+    padding: 0.5rem;
+    border-radius: 4px;
+}

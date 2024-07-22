@@ -1,0 +1,17 @@
+<div class="panel panel-default">
+    <div class="col-xs-12 panel-heading clearfix">
+            <span class="title pad-left-right">Inventory</span>
+            <span class="pull-right" id="gp">{{gold}}🪙</span>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-xs-12" id="inventory-list">
+                <app-inventory-item
+                    *ngFor="let item of inventory"
+                    [item]="item"
+                >
+                </app-inventory-item>
+            </div>
+        </div>
+    </div>
+</div>

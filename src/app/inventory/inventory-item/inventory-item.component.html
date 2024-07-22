@@ -1,0 +1,7 @@
+<a [routerLink]="[id]" class="item-link">
+    <div class="item-card">
+        <span *ngIf="equipped" class="equipped">E</span>
+        <img class="img-rounded" src="{{imgUrl}}" alt="{{item.name}}">
+        <p>{{item.name}}</p>
+    </div>
+</a>

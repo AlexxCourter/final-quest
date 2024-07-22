@@ -1,0 +1,25 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-3 col-md-3 col-xs-3 col-sm-3" id="option1">
+            <a [routerLink]="[left]" routerLinkActive="active">
+                <img src="{{pathImage}}" width="270" alt="" class="img-rounded">
+                <p>Turn left</p>
+            </a>
+            
+        </div>
+        <div class="col-lg-3 col-md-3 col-xs-3 col-sm-3" id="option2">
+            <a [routerLink]="[straight]" routerLinkActive="active">
+                <img src="{{pathImage}}" width="270" alt="" class="img-rounded">
+                <p>Go straight</p>
+            </a>
+            
+        </div>
+        <div class="col-lg-3 col-md-3 col-xs-3 col-sm-3" id="option3">
+            <a [routerLink]="[right]" routerLinkActive="active">
+                <img src="{{pathImage}}" width="270" alt="" class="img-rounded">
+                <p>Turn right</p>
+            </a>
+            
+        </div>
+    </div>    
+</div>
