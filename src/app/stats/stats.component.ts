@@ -1,16 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Item } from '../inventory/item.model';
 import { ItemService } from '../inventory/item.service';
+import { Equipped } from '../shared/equipped.interface';
+import { Subscription } from 'rxjs';
+import { Player } from '../shared/player.model';
+import { StatService } from '../shared/stat.service';
 
 @Component({
   selector: 'app-stats',
   templateUrl: './stats.component.html',
   styleUrl: './stats.component.css'
 })
-export class StatsComponent implements OnInit {
-  weapon: Item | null;
-  armor: Item | null;
-  trinket: Item | null;
+export class StatsComponent implements OnInit, OnDestroy {
+  equipped: Equipped = {weapon: null, armor: null, trinket: null};
+  player: Player = new Player('',0,0,0,0,0,0,0,0,0,0);
+  nextLvlPercent: number = 0;
+  nextLvlExp: number = 0;
 
   weaponId: string = '';
   armorId: string = '';
@@ -20,22 +25,36 @@ export class StatsComponent implements OnInit {
   armorImg: string = '';
   trinketImg: string = '';
 
-  constructor(private itemService: ItemService){
-    this.weapon = itemService.equipped['weapon'];
-    this.armor = itemService.equipped['armor'];
-    this.trinket = itemService.equipped['trinket'];
+  subscription: Subscription = new Subscription();
+  equipSub: Subscription = new Subscription();
 
-    //test
-    this.weapon = itemService.getItemById('0');
-    this.armor = itemService.getItemById('1');
+  constructor(private itemService: ItemService, private statService: StatService){
+    
   }
 
   ngOnInit(): void {
-    this.weapon ? this.weaponId = this.weapon.id : '';
-    this.armor ? this.armorId = this.armor.id : '';
-    this.trinket ? this.trinketId = this.trinket.id : '';
-    this.weapon ? this.weaponImg = this.itemService.getItemImg(this.weaponId) : this.weaponImg = '../../assets/images/weapon-ph.webp';
-    this.armor ? this.armorImg = this.itemService.getItemImg(this.armorId) : this.armorImg = '../../assets/images/armor-ph.webp';
-    this.trinket ? this.trinketImg = this.itemService.getItemImg(this.trinketId) : this.trinketImg = '../../assets/images/trinket-ph.webp';
+    this.player = this.statService.getPlayer();
+    this.subscription = this.statService.playerChangedEvent.subscribe((player: Player) =>{
+      this.player = player;
+    })
+    this.equipped = this.itemService.getEquipped();
+    this.equipSub = this.itemService.equipmentChangedEvent.subscribe((equips: Equipped) => {
+      this.equipped = equips;
+    })
+
+    this.equipped.weapon ? this.weaponId = this.equipped.weapon.id : '';
+    this.equipped.armor ? this.armorId = this.equipped.armor.id : '';
+    this.equipped.trinket ? this.trinketId = this.equipped.trinket.id : '';
+    this.equipped.weapon ? this.weaponImg = this.itemService.getItemImg(this.weaponId) : this.weaponImg = '../../assets/images/weapon-ph.webp';
+    this.equipped.armor ? this.armorImg = this.itemService.getItemImg(this.armorId) : this.armorImg = '../../assets/images/armor-ph.webp';
+    this.equipped.trinket ? this.trinketImg = this.itemService.getItemImg(this.trinketId) : this.trinketImg = '../../assets/images/trinket-ph.webp';
+    
+    this.nextLvlPercent = this.statService.getLvlPercentage();
+    this.nextLvlExp = this.statService.getNextLevel()[1];
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+    this.equipSub.unsubscribe();
   }
 }

@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Item } from '../item.model';
 import { ItemService } from '../item.service';
+import { Subscription } from 'rxjs';
+import { Equipped } from '../../shared/equipped.interface';
 
 @Component({
   selector: 'app-inventory-item',
@@ -12,6 +14,7 @@ export class InventoryItemComponent implements OnInit {
   id: number = 0;
   imgUrl: string = "";
   equipped: boolean = false;
+  equipSub: Subscription = new Subscription();
 
   constructor(private itemService: ItemService){
     
@@ -21,10 +24,16 @@ export class InventoryItemComponent implements OnInit {
     this.id = Number(this.item.id);
     this.imgUrl = this.itemService.getItemImg(String(this.id));
 
+    this.checkEquip();
+    this.equipSub = this.itemService.equipmentChangedEvent.subscribe(() =>{
+      this.checkEquip();
+    })
+  }
+
+  checkEquip(){
     if(this.item.id == this.itemService.getEquipmentId(this.item.type)){
       this.equipped = true;
     }
   }
 
-  
 }

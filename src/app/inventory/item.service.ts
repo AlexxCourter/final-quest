@@ -4,6 +4,7 @@ import { Effect } from '../shared/effect.model';
 import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Equipped } from '../shared/equipped.interface';
+import { StatService } from '../shared/stat.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,7 @@ export class ItemService {
   }
   equipmentChangedEvent = new Subject<Equipped>();
 
-  constructor() { }
+  constructor(private statService: StatService) { }
 
   getItemById(id: string){
     let target: Item = new Item('','','','',0,null);
@@ -35,6 +36,10 @@ export class ItemService {
       }
     })
     return target;
+  }
+
+  getItems(){
+    return this.items.slice();
   }
 
   getEquipped(){
@@ -81,6 +86,15 @@ export class ItemService {
     this.equipmentChangedEvent.next(this.equipped);
   }
 
+  useConsumeable(id: string){
+    let item = this.getItemById(id);
+    item.effect?.forEach(eff => {
+      this.statService.effectStat(eff);
+    })
+    this.items.splice(this.items.indexOf(item),1);
+    this.inventoryChangedEvent.next(this.items.slice());
+  }
+
   getItemImg(id: string){
     let item = this.getItemById(id);
     switch(item.type){
@@ -103,7 +117,32 @@ export class ItemService {
 
   onSellItem(id: string){
     let item = this.getItemById(id);
-
     this.items.splice(this.items.indexOf(item),1);
+    this.statService.effectStat(new Effect('gold',item.value,true));
+
+    this.inventoryChangedEvent.next(this.items.slice());
+  }
+
+
+  getMaxId(): number {
+    let maxId = 0;
+    this.items.forEach(item => {
+      let currentId = Number(item.id)
+      if (currentId > maxId){
+        maxId = currentId;
+      }
+    })
+    return maxId +1;
+   }
+
+  itemFactory(
+    name: string,
+    description: string,
+    type: string,
+    value: number,
+    effect: Effect[] | null
+  ): Item {
+    //assign a new ID
+    return new Item(String(this.getMaxId()),name,description,type,value,effect)
   }
 }

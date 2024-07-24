@@ -45,9 +45,53 @@
     background-color: cyan;
     color: black;
 }
+.int {
+    background-color: gold;
+    color: black;
+}
+.luck {
+    background-color: mintcream;
+    color: black;
+}
 .value {
     grid-column: 1/-1;
     grid-row: 3;
     text-align: right;
     margin-right: 0.5rem;
+}
+
+.character-parameters p {
+    padding: 0.5rem;
+    border-radius: 6px;
+    max-width: 200px;
+    box-shadow: 3px 3px 8px gray;
+}
+
+#cname {
+    font-size: 2rem;
+    border: 1px solid gray;
+    margin: 0.5rem 0;
+    padding: 0.3rem;
+}
+
+#lvl {
+    font-size: 2rem;
+    background-color: black;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 6px;
+}
+
+#exp p {
+    margin-bottom: 0;
+    font-weight: bold;
+}
+
+#gold {
+    width: fit-content;
+}
+
+#gold p {
+    margin: 0;
+    font-size: 2rem;
 }

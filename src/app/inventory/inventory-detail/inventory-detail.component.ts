@@ -20,4 +20,22 @@ export class InventoryDetailComponent implements OnInit {
       this.imgUrl = this.itemService.getItemImg(params['id']);
     })
   }
+
+  onUse(){
+    if(["weapon", "armor", "trinket"].includes(this.selectedItem.type)){
+      this.itemService.addEquip(this.selectedItem.id, this.selectedItem.type)
+    } else if (this.selectedItem.type === "consumeable") {
+      this.itemService.useConsumeable(this.selectedItem.id);
+      this.router.navigate(['inventory']);
+    }
+  }
+
+  onSell(){
+    if(confirm('Are you sure you want to sell this item?')){
+      this.itemService.onSellItem(this.selectedItem.id)
+      this.router.navigate(['inventory']);
+    } else {
+      //do nothing
+    }
+  }
 }

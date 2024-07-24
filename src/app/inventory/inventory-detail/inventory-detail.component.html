@@ -9,8 +9,8 @@
                 <p>{{selectedItem.value}}🪙</p>
             </div>
             <div class="btnset">
-                <button type="button" class="btn {{selectedItem.type == 'consumeable' ? 'btn-info' : 'btn-success'}}" *ngIf="selectedItem.type !== 'material'">{{selectedItem.type == 'consumeable' ? "Use" : "Equip"}}</button>
-                <button type="button" class="btn btn-danger">Sell</button>
+                <button type="button" (click)="onUse()" class="btn {{selectedItem.type == 'consumeable' ? 'btn-info' : 'btn-success'}}" *ngIf="selectedItem.type !== 'material'">{{selectedItem.type == 'consumeable' ? "Use" : "Equip"}}</button>
+                <button type="button" (click)="onSell()" class="btn btn-danger">Sell</button>
             </div>
         </div>
     </div>

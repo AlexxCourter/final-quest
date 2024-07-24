@@ -1,57 +1,76 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-5 panel panel-default">
+        <div class="col-xs-12 col-md-5 col-lg-5 panel panel-default">
             <h2 class="title">Equipment</h2>
             <div class="equip">
-                <p>{{weapon? weapon.name : "Empty"}}</p>
-                <img src="{{weaponImg}}" width="100" height="100" alt="{{weapon?.name}}">
+                <p>{{equipped.weapon? equipped.weapon.name : "Empty"}}</p>
+                <img src="{{weaponImg}}" width="100" height="100" alt="{{equipped.weapon?.name}}">
                 <div class="parameters">
-                    <div class="effects" *ngFor="let effect of weapon?.effect">
+                    <div class="effects" *ngFor="let effect of equipped.weapon?.effect">
                         <div class="weaponEffect {{effect.parameter}}">
                             {{effect.parameter}} <span>{{effect.positive? '+' : '-'}}{{effect.modifier}}</span>
                         </div>
                     </div>
                 </div>
-                <div class="value">{{weapon?.value}}🪙</div>
+                <div class="value">{{equipped.weapon?.value}}🪙</div>
             </div>
             <div class="equip">
-                <p>{{armor? armor.name : "Empty"}}</p>
-                <img src="{{armorImg}}" width="100" height="100" alt="{{armor?.name}}">
+                <p>{{equipped.armor? equipped.armor.name : "Empty"}}</p>
+                <img src="{{armorImg}}" width="100" height="100" alt="{{equipped.armor?.name}}">
                 <div class="parameters">
-                    <div class="effects" *ngFor="let effect of armor?.effect">
+                    <div class="effects" *ngFor="let effect of equipped.armor?.effect">
                         <div class="armorEffect {{effect.parameter}}">
                             {{effect.parameter}} <span>{{effect.positive? '+' : '-'}}{{effect.modifier}}</span>
                         </div>
                     </div>
                 </div>
-                <div class="value">{{armor?.value}}🪙</div>
+                <div class="value">{{equipped.armor?.value}}🪙</div>
             </div>
             <div class="equip">
-                <p>{{trinket? trinket.name : "Empty"}}</p>
-                <img src="{{trinketImg}}" width="100" height="100" alt="{{trinket?.name}}">
+                <p>{{equipped.trinket? equipped.trinket.name : "Empty"}}</p>
+                <img src="{{trinketImg}}" width="100" height="100" alt="{{equipped.trinket?.name}}">
                 <div class="parameters">
-                    <div class="effects" *ngFor="let effect of trinket?.effect">
+                    <div class="effects" *ngFor="let effect of equipped.trinket?.effect">
                         <div class="trinketEffect {{effect.parameter}}">
                             {{effect.parameter}} <span>{{effect.positive? '+' : '-'}}{{effect.modifier}}</span>
                         </div>
                     </div>
                 </div>
-                <div class="value">{{trinket?.value}}🪙</div>
+                <div class="value">{{equipped.trinket?.value}}🪙</div>
             </div>
         </div>
-        <div class="col-md-7 panel panel-default">
+        <div class="col-xs-12 col-md-7 col-lg-7 panel panel-default">
             <h2>Stats</h2>
             <div class="stats">
                 <div class="character-info">
-                    <img id="cimg" src="" width="120" height="120" alt="">
-                    <p id="cname">Jeff</p>
-                    <p id="lvl">Level: 10</p>
+                    <img id="cimg" class="img img-rounded" src="../../assets/images/quest.jpg" width="120" height="120" alt="">
+                    <p id="cname">{{player.name}}</p>
+                    <p id="lvl">Level: <span>{{player.level}}</span></p>
+                    <div id="exp">
+                        <p>EXP: {{player.exp}} / {{nextLvlExp}}</p>
+                        <div class="progress" style="height: 20px; max-width: 300px;">
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{'width': nextLvlPercent + '%'}" aria-valuemin="0" aria-valuemax="100">{{nextLvlPercent}}%</div>
+                        </div>
+                    </div>
+                    <div class="well" id="gold">
+                        <p>Gold: {{player.gold}}🪙</p>
+                    </div>
                 </div>
                 <div class="character-parameters well">
-                    <p class="hp">HP: 10</p><span id="hp"></span>
-                    <p class="atk">ATK: 14</p><span id="atk"></span>
-                    <p class="def">DEF: 12</p><span id="def"></span>
-                    <p class="spd">SPEED: 6</p><span id="spd"></span>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-4">
+                            <p class="hp">HP: <span id="hp">{{player.hp}} / {{player.maxHp}}</span></p>
+                            <p class="atk">ATK: <span id="atk">{{player.atk}}</span></p>
+                            <p class="def">DEF: <span id="def">{{player.def}}</span></p>
+                        </div>
+                        <div class="col-xs-12 col-md-4">
+                            <p class="spd">SPEED: <span id="spd">{{player.spd}}</span></p>
+                            <p class="int">INT: <span id="int">{{player.int}}</span></p>
+                            <p class="luck">LUCK: <span id="luck">{{player.spd}}</span></p>
+                        </div>
+                    </div>
+                    
+                    
                     
                 </div>
             </div>

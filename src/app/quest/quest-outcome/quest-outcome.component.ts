@@ -14,17 +14,16 @@ import { Equipped } from '../../shared/equipped.interface';
   styleUrl: './quest-outcome.component.css'
 })
 export class QuestOutcomeComponent implements OnInit {
-  direction: String = "";
-  location: String = "";
-  quest: Quest;
+  direction: string = "";
+  location: string = "";
+  quest: Quest = new Quest('','',0,'','','','','',null,null,null);
   continue = false;
   player: Player;
   equipment: Equipped;
 
-  btnText: String = "Continue";
+  btnText: string = "Continue";
 
   constructor(private qs: QuestService, private statService: StatService, private itemService: ItemService, private router: Router, private route: ActivatedRoute){
-    this.quest = this.qs.getRandomQuest();
     this.player = this.statService.getPlayer();
     this.equipment = this.itemService.getEquipped();
     //need to update the getrandomquest function to account for
@@ -35,16 +34,24 @@ export class QuestOutcomeComponent implements OnInit {
     this.route.params.subscribe(params =>{
       this.direction = params['direction'];
       this.location = params['location'];
+
+      this.quest = this.qs.getRandomQuest(this.qs.getLocationList(this.location));
     });
 
     if(this.quest.questStat === "atk"){
       this.btnText = 'Attack';
     }
+    
+    this.equipPlayer();
   }
 
   onQuest(){
     this.continue = true;
     
+  }
+
+  onEscape(){
+    this.router.navigate(['../'], {relativeTo: this.route})
   }
 
   equipPlayer(){

@@ -1,7 +1,19 @@
 <div class="well">
     <h2>Quest Location</h2>
-    <button class="btn btn-success" [routerLink]="['forest']">Dark Forest</button>
-    <button class="btn btn-danger" [routerLink]="['dungeon']">Underground Dungeon</button>
+    <p>Choose one of the locations below to explore.</p>
+    <div class="row">
+        <div class="col-xs-5 col-md-2">
+            <button class="btn btn-success" [routerLink]="['forest']">Dark Forest</button>
+            <p>(good for level 0)</p>
+        </div>
+        <div class="col-xs-5 col-md-3">
+            <button class="btn btn-danger" [routerLink]="['dungeon']">Underground Dungeon</button>
+            <p>(recommended level: 8+)</p>
+        </div>
+    </div>
+    
+    
+    
 </div>
 
    

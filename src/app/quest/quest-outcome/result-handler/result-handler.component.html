@@ -1,3 +1,8 @@
-<div class="well">
-    calculate result here
+<div class="well result">
+    <h2>{{success ? 'SUCCESS!' : 'Failure...'}}</h2>
+    <p>{{result}}</p>
+    <div *ngFor="let eff of effects">
+        <p>{{eff.positive ? 'You gained ' : 'You lost '}}{{eff.modifier}} {{eff.parameter}}</p>
+    </div>
+    <button type="button" (click)="onContinue()" class="btn btn-success">Continue Journey</button>
 </div>
