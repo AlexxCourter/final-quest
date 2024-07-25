@@ -45,6 +45,14 @@ export class ItemService {
         this.items = items['Items'];
         this.inventoryChangedEvent.next(this.getItems());
       }
+    );
+    this.http.get('http://localhost:3000/inventory/equipment')
+    .subscribe(
+      (equips: any) => {
+        console.log(equips['data'])
+        this.equipped = equips['data'];
+        this.equipmentChangedEvent.next(this.getEquipped());
+      }
     )
   }
 
@@ -89,7 +97,7 @@ export class ItemService {
         this.equipped['trinket'] = item;
         break;
     }
-    this.equipmentChangedEvent.next(this.equipped);
+    this.updateEquipment(this.equipped);
   }
 
   useConsumeable(id: string){
@@ -162,6 +170,17 @@ export class ItemService {
       ()=>{
         this.items.splice(index, 1);
         this.inventoryChangedEvent.next(this.getItems());
+      }
+    )
+  }
+
+  updateEquipment(equipment: Equipped){
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+    this.http.put('http://localhost:3000/inventory/equipment/update', equipment, {headers: headers})
+    .subscribe(
+      ()=>{
+        this.equipmentChangedEvent.next(this.getEquipped());
       }
     )
   }

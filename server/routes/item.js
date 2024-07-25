@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Items = require('../models/items');
+const Equipment = require('./equipment');
 
 router.get('/', (req, res, next) => {
     Items.find({}, {_id:0})
@@ -93,5 +94,22 @@ router.delete('/:id', (req, res, next) => {
             });
         });
 });
+
+router.get('/equipment', (req, res, next)=>{
+    res.status(200).json({
+        message: "retrieved equips",
+        data: Equipment.getEquips()
+    })
+})
+
+router.put('/equipment/update', (req, res, next)=>{
+    console.log(req.body);
+    Equipment.updateEquips(req.body)
+    .then(result =>{
+        res.status(204).json({
+            message: "updated equips"
+        })
+    })
+})
 
 module.exports = router;
