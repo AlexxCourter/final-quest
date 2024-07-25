@@ -10,7 +10,7 @@ import { Equipped } from '../../shared/equipped.interface';
   styleUrl: './inventory-item.component.css'
 })
 export class InventoryItemComponent implements OnInit {
-  @Input() item: Item = new Item('','','','',0,null);
+  @Input() item: Item = new Item('','','','',0,null,false);
   id: number = 0;
   imgUrl: string = "";
   equipped: boolean = false;

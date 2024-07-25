@@ -9,7 +9,7 @@ import { ItemService } from '../item.service';
   styleUrl: './inventory-detail.component.css'
 })
 export class InventoryDetailComponent implements OnInit {
-  @Input() selectedItem: Item = new Item('','','','',0,null);
+  @Input() selectedItem: Item = new Item('','','','',0,null,false);
   imgUrl: string = '';
 
   constructor(private itemService: ItemService, private router: Router, private route: ActivatedRoute){}
@@ -37,5 +37,9 @@ export class InventoryDetailComponent implements OnInit {
     } else {
       //do nothing
     }
+  }
+
+  onLock(){
+    this.itemService.onLockItem(this.selectedItem);
   }
 }

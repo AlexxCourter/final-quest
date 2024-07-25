@@ -18,25 +18,27 @@ export class QuestOutcomeComponent implements OnInit {
   location: string = "";
   quest: Quest = new Quest('','',0,'','','','','',null,null,null);
   continue = false;
-  player: Player;
-  equipment: Equipped;
+  player: Player = new Player('',0,0,0,0,0,0,0,0,0,0);
+  equipment: Equipped = {weapon: null, armor: null, trinket: null};
 
   btnText: string = "Continue";
 
   constructor(private qs: QuestService, private statService: StatService, private itemService: ItemService, private router: Router, private route: ActivatedRoute){
-    this.player = this.statService.getPlayer();
-    this.equipment = this.itemService.getEquipped();
-    //need to update the getrandomquest function to account for
-    //locations.
+    
   }
 
   ngOnInit(): void {
+    this.player = this.statService.getPlayer();
+    this.equipment = this.itemService.getEquipped();
     this.route.params.subscribe(params =>{
+      
       this.direction = params['direction'];
       this.location = params['location'];
 
       this.quest = this.qs.getRandomQuest(this.qs.getLocationList(this.location));
+      
     });
+
 
     if(this.quest.questStat === "atk"){
       this.btnText = 'Attack';
@@ -61,44 +63,44 @@ export class QuestOutcomeComponent implements OnInit {
         switch(eff.parameter){
           case 'hp':
             if(eff.positive){
-              this.player.hp += eff.modifier;
+              this.player.hp += Number(eff.modifier);
             } else {
-              this.player.hp -= eff.modifier;
+              this.player.hp -= Number(eff.modifier);
             }
             break;
           case 'atk':
             if(eff.positive){
-              this.player.atk += eff.modifier;
+              this.player.atk += Number(eff.modifier);
             } else {
-              this.player.atk -= eff.modifier;
+              this.player.atk -= Number(eff.modifier);
             }
             break;
           case 'def':
             if(eff.positive){
-              this.player.def += eff.modifier;
+              this.player.def += Number(eff.modifier);
             } else {
-              this.player.def -= eff.modifier;
+              this.player.def -= Number(eff.modifier);
             }
             break;
           case 'spd':
             if(eff.positive){
-              this.player.spd += eff.modifier;
+              this.player.spd += Number(eff.modifier);
             } else {
-              this.player.spd -= eff.modifier;
+              this.player.spd -= Number(eff.modifier);
             }
             break;
           case 'int':
             if(eff.positive){
-              this.player.int += eff.modifier;
+              this.player.int += Number(eff.modifier);
             } else {
-              this.player.int -= eff.modifier;
+              this.player.int -= Number(eff.modifier);
             }
             break;
           case 'luck':
             if(eff.positive){
-              this.player.luck += eff.modifier;
+              this.player.luck += Number(eff.modifier);
             } else {
-              this.player.luck -= eff.modifier;
+              this.player.luck -= Number(eff.modifier);
             }
             break;
         }

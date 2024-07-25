@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Item } from './item.model';
 import { Effect } from '../shared/effect.model';
 import { Subject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Equipped } from '../shared/equipped.interface';
 import { StatService } from '../shared/stat.service';
 
@@ -10,13 +10,7 @@ import { StatService } from '../shared/stat.service';
   providedIn: 'root'
 })
 export class ItemService {
-  items: Item[] = [
-    new Item('0','sword','a sharp blade for combat','weapon',10,[new Effect('atk',4,true)]),
-    new Item('1','Steel Armor','A defensive suit of steel armor','armor',100,[new Effect('def',4,true)]),
-    new Item('2','HP Potion','A magical elixir that heals 10 HP','consumeable',10,[new Effect('hp',10,true)]),
-    new Item('3','Bat Claw','The claw of a large bat monster','material',50,null),
-    new Item('4','Resonant Crystal','A glowing crystal that also produces an audible hum','material',500,null),
-  ];
+  items: Item[] = [];
   inventoryChangedEvent = new Subject<Item[]>();
 
   equipped: Equipped = {
@@ -26,10 +20,12 @@ export class ItemService {
   }
   equipmentChangedEvent = new Subject<Equipped>();
 
-  constructor(private statService: StatService) { }
+  constructor(private statService: StatService, private http: HttpClient) {
+    this.getInventoryFromDB();
+   }
 
   getItemById(id: string){
-    let target: Item = new Item('','','','',0,null);
+    let target: Item = new Item('','','','',0,null,false);
     this.items.forEach(item =>{
       if(item.id === id){
         target = item;
@@ -40,6 +36,16 @@ export class ItemService {
 
   getItems(){
     return this.items.slice();
+  }
+
+  getInventoryFromDB(){
+    this.http.get('http://localhost:3000/inventory')
+    .subscribe(
+      (items: any) => {
+        this.items = items['Items'];
+        this.inventoryChangedEvent.next(this.getItems());
+      }
+    )
   }
 
   getEquipped(){
@@ -91,8 +97,7 @@ export class ItemService {
     item.effect?.forEach(eff => {
       this.statService.effectStat(eff);
     })
-    this.items.splice(this.items.indexOf(item),1);
-    this.inventoryChangedEvent.next(this.items.slice());
+    this.deleteItem(item);
   }
 
   getItemImg(id: string){
@@ -110,19 +115,74 @@ export class ItemService {
     return '../../assets/images/item-default.webp';
   }
 
+  toggleLock(item: Item): Item{
+    let newItem = item;
+    if(newItem.locked == true){
+      newItem.locked = false;
+    } else {
+      newItem.locked = true;
+    }
+    return newItem;
+  }
+
+  onLockItem(item: Item){
+    let newItem = this.toggleLock(item);
+    this.updateItem(item, newItem);
+  }
+
   onAddItem(item : Item){
     this.items.push(item);
-    this.inventoryChangedEvent.next(this.items.slice());
+    this.postItem(item);
   }
 
   onSellItem(id: string){
     let item = this.getItemById(id);
-    this.items.splice(this.items.indexOf(item),1);
     this.statService.effectStat(new Effect('gold',item.value,true));
 
-    this.inventoryChangedEvent.next(this.items.slice());
+    this.deleteItem(item); //will also splice from current list.
   }
 
+  postItem(newItem: Item){
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    this.http.post('http://localhost:3000/inventory', newItem, {headers: headers})
+    .subscribe(
+      ()=>{
+        this.inventoryChangedEvent.next(this.getItems());
+      }
+    )
+  }
+
+  deleteItem(item: Item){
+    let index = this.items.indexOf(item);
+    if(index < 0){
+      return;
+    }
+    this.http.delete('http://localhost:3000/inventory/' + item.id)
+    .subscribe(
+      ()=>{
+        this.items.splice(index, 1);
+        this.inventoryChangedEvent.next(this.getItems());
+      }
+    )
+  }
+
+  updateItem(item: Item, newItem: Item){
+    let index = this.items.indexOf(item);
+    if(index < 0){
+      return;
+    }
+    newItem.id = item.id;
+
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+    this.http.put('http://localhost:3000/inventory/' + item.id, newItem, {headers: headers})
+    .subscribe(
+      ()=>{
+        this.items[index] = newItem;
+        this.inventoryChangedEvent.next(this.getItems());
+      }
+    )
+  }
 
   getMaxId(): number {
     let maxId = 0;
@@ -140,9 +200,10 @@ export class ItemService {
     description: string,
     type: string,
     value: number,
-    effect: Effect[] | null
+    effect: Effect[] | null,
+    locked: boolean
   ): Item {
     //assign a new ID
-    return new Item(String(this.getMaxId()),name,description,type,value,effect)
+    return new Item(String(this.getMaxId()),name,description,type,value,effect,locked)
   }
 }

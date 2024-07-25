@@ -101,3 +101,5 @@ router.delete('/:name', (req, res, next) => {
             });
         });
 });
+
+module.exports = router;

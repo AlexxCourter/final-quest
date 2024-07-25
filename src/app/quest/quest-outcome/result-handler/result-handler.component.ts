@@ -39,7 +39,7 @@ export class ResultHandlerComponent implements OnInit {
     }
     if(this.loot){
       this.loot.forEach(item =>{
-        let newItem: Item = this.itemService.itemFactory(item.name,item.description,item.type,item.value,item.effect);
+        let newItem: Item = this.itemService.itemFactory(item.name,item.description,item.type,item.value,item.effect,item.locked);
         this.itemService.onAddItem(newItem);
       })
     }

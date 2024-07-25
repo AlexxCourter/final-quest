@@ -15,7 +15,7 @@ export const QUESTLIST = [
         "The bats have beaten you...", 
         [new Effect('gold',30,true), new Effect('exp',80,true)], 
         [new Effect('hp',15,false)],
-        [new Item('','Bat Claw','The claw of a large bat monster','material',50,null)]
+        [new Item('','Bat Claw','The claw of a large bat monster','material',50,null,false)]
     ),
     new Quest(
         '2', 
@@ -67,7 +67,7 @@ export const QUESTLIST = [
         "You are bested by the ancient sword techniques of the skeletal warriors...",
         [new Effect('gold',200,true), new Effect('exp', 120, true)],
         [new Effect('hp',20,false)],
-        [new Item('','Bone shard','A fragement of an undead warrior','material',100,null)]
+        [new Item('','Bone shard','A fragement of an undead warrior','material',100,null,false)]
     ),
     new Quest(
         "6",
@@ -80,7 +80,7 @@ export const QUESTLIST = [
         "You have been defeated by the werewolf...",
         [new Effect('gold',200,true), new Effect('exp', 120, true)],
         [new Effect('hp',20,false)],
-        [new Item('','wolf fang','the tooth of a wolf creature','material',125,null)]
+        [new Item('','wolf fang','the tooth of a wolf creature','material',125,null,false)]
     ),
     new Quest(
         "7",
@@ -106,7 +106,7 @@ export const QUESTLIST = [
         "You take critical damage from the stalker beast...",
         [new Effect('gold',150,true), new Effect('exp', 100, true)],
         [new Effect('hp',15,false)],
-        [new Item('','Blue fur','the fur of the dreaded forest stalker beast','material',100,null)]
+        [new Item('','Blue fur','the fur of the dreaded forest stalker beast','material',100,null,false)]
     ),
     new Quest(
         "9",
@@ -119,7 +119,7 @@ export const QUESTLIST = [
         "The dragon obliterates your defenses...",
         [new Effect('gold',3000,true), new Effect('exp', 1000, true)],
         [new Effect('hp',50,false)],
-        [new Item('','Dragon Sword','A formiddable two-handed sword that was forged in dragon fire','weapon',6000,[new Effect('atk',20,true)])]
+        [new Item('','Dragon Sword','A formiddable two-handed sword that was forged in dragon fire','weapon',6000,[new Effect('atk',20,true)],false)]
     ),
     new Quest(
         "10",
@@ -135,3 +135,4 @@ export const QUESTLIST = [
         null
     ),
   ];
+

@@ -2,17 +2,17 @@ import { Injectable } from '@angular/core';
 import { Player } from './player.model';
 import { Subject } from 'rxjs';
 import { Effect } from './effect.model';
-import { Item } from '../inventory/item.model';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StatService {
-  player: Player = new Player('Alex',5,500,12,20,14,11,8,10,5,500);
+  player: Player = new Player('Alex',0,0,15,15,10,10,8,10,5,200);
   playerChangedEvent = new Subject<Player>();
 
-  constructor() { 
-
+  constructor(private http: HttpClient) { 
+    this.getPlayerFromDB();
   }
 
   getPlayer(){
@@ -21,17 +21,36 @@ export class StatService {
     return p;
   }
 
+  getPlayerFromDB(){
+    this.http.get('http://localhost:3000/stats')
+    .subscribe(
+      (player: any) => {
+        this.player = player['playerData'][0];
+        this.playerChangedEvent.next(this.getPlayer());
+      }
+    )
+  }
+
+  updatePlayer(){
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    this.http.put('http://localhost:3000/stats/' + this.player.name, this.player, {headers: headers})
+    .subscribe(
+      () => {
+        this.playerChangedEvent.next(this.getPlayer());
+      }
+    )
+  }
+
   levelUp(){
     this.player.level += 1;
     upgrades[this.player.level].forEach((eff: Effect) => {
       this.effectStat(eff);
     })
-    this.playerChangedEvent.next(this.player);
   }
 
   fillHp(){
     this.player.hp = this.player.maxHp;
-    this.playerChangedEvent.next(this.player);
+    this.updatePlayer();
   }
 
   checkLevel(){
@@ -41,6 +60,7 @@ export class StatService {
       //recursive check until player is correct level.
       this.checkLevel();
     }
+    this.updatePlayer();
   }
 
   getLvlPercentage(){
@@ -53,18 +73,18 @@ export class StatService {
     switch(effect.parameter){
       case 'exp':
         if(effect.positive){
-          this.player.exp += effect.modifier;
+          this.player.exp += Number(effect.modifier);
           this.checkLevel();
         }
         break;
       case 'hp':
         if(effect.positive){
-          this.player.hp += effect.modifier;
+          this.player.hp += Number(effect.modifier);
           if(this.player.hp > this.player.maxHp){
             this.player.hp = this.player.maxHp;
           }
         } else {
-          this.player.hp -= effect.modifier;
+          this.player.hp -= Number(effect.modifier);
           if(this.player.hp < 0){
             this.player.hp = 0;
           }
@@ -72,55 +92,55 @@ export class StatService {
         break;
       case 'gold':
         if(effect.positive){
-          this.player.gold += effect.modifier;
+          this.player.gold += Number(effect.modifier);
         } else {
-          this.player.gold -= effect.modifier;
+          this.player.gold -= Number(effect.modifier);
         }
         break;
       case 'atk':
         if(effect.positive){
-          this.player.atk += effect.modifier;
+          this.player.atk += Number(effect.modifier);
         } else {
-          this.player.atk -= effect.modifier;
+          this.player.atk -= Number(effect.modifier);
         }
         break;
       case 'def':
         if(effect.positive){
-          this.player.def += effect.modifier;
+          this.player.def += Number(effect.modifier);
         } else {
-          this.player.def -= effect.modifier;
+          this.player.def -= Number(effect.modifier);
         }
         break;
       case 'spd':
         if(effect.positive){
-          this.player.spd += effect.modifier;
+          this.player.spd += Number(effect.modifier);
         } else {
-          this.player.spd -= effect.modifier;
+          this.player.spd -= Number(effect.modifier);
         }
         break;
       case 'maxHp':
         if(effect.positive){
-          this.player.maxHp += effect.modifier;
+          this.player.maxHp += Number(effect.modifier);
         } else {
-          this.player.maxHp -= effect.modifier;
+          this.player.maxHp -= Number(effect.modifier);
         }
         break;
       case 'int':
         if(effect.positive){
-          this.player.int += effect.modifier;
+          this.player.int += Number(effect.modifier);
         } else {
-          this.player.int -= effect.modifier;
+          this.player.int -= Number(effect.modifier);
         }
         break;
       case 'luck':
         if(effect.positive){
-          this.player.luck += effect.modifier;
+          this.player.luck += Number(effect.modifier);
         } else {
-          this.player.luck -= effect.modifier;
+          this.player.luck -= Number(effect.modifier);
         }
         break;
     }
-    this.playerChangedEvent.next(this.player);
+    this.updatePlayer();
   }
 
   getNextLevel(): number[] {

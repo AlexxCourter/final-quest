@@ -7,6 +7,7 @@ export class Item {
         public description: string,
         public type: string,
         public value: number,
-        public effect: Effect[] | null
+        public effect: Effect[] | null,
+        public locked: boolean
     ){}
 }

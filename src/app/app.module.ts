@@ -13,6 +13,7 @@ import { InventoryItemComponent } from './inventory/inventory-item/inventory-ite
 import { InventoryListComponent } from './inventory/inventory-list/inventory-list.component';
 import { InventoryDetailComponent } from './inventory/inventory-detail/inventory-detail.component';
 import { ResultHandlerComponent } from './quest/quest-outcome/result-handler/result-handler.component';
+import { HttpClient, HttpClientModule, HttpHandler } from '@angular/common/http';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { ResultHandlerComponent } from './quest/quest-outcome/result-handler/res
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

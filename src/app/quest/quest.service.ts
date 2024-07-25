@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Quest } from './quest.model';
-import { Effect } from '../shared/effect.model';
 import { StatService } from '../shared/stat.service';
-import { QUESTLIST } from './QUESTLIST';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +9,18 @@ import { QUESTLIST } from './QUESTLIST';
 export class QuestService {
   quests: Quest[] = [];
 
-  constructor(statService: StatService) {
-    //remove after testing
-    this.quests = QUESTLIST;
+  constructor(private statService: StatService, private http: HttpClient) {
+    this.getQuestsFromDB();
+  }
 
-    
-   }
+  getQuestsFromDB(){
+    this.http.get('http://localhost:3000/quest')
+    .subscribe(
+      (quest: any) => {
+        this.quests = quest['Quests'];
+      }
+    )
+  }
 
   getLocationList(location: string){
         return this.quests.filter(q => q.location == location);

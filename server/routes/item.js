@@ -20,6 +20,7 @@ router.post('/', (req, res, next) => {
         type: req.body.type,
         value: req.body.value,
         effect: req.body.effect,
+        locked: req.body.locked
     });
 
     item.save()
@@ -46,6 +47,7 @@ router.put('/:id', (req, res, next)=>{
         item.type = req.body.type;
         item.value = req.body.value;
         item.effect = req.body.effect;
+        item.locked = req.body.locked;
 
         Items.updateOne({id: req.params.id}, item)
         .then(result => {
@@ -91,3 +93,5 @@ router.delete('/:id', (req, res, next) => {
             });
         });
 });
+
+module.exports = router;

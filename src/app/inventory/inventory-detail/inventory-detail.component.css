@@ -6,4 +6,16 @@
     border-radius: 4px;
     background: linear-gradient(rgb(255, 255, 199), rgb(202, 202, 165));
     color: black;
+    
+}
+.lock {
+    font-size: 3rem;
+    background-color: white;
+    width: fit-content;
+    border-radius: 6px;
+    cursor:pointer;
+    margin: 1rem 0.3rem;
+}
+button {
+    margin: 0.5rem;
 }
