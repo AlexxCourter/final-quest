@@ -29,7 +29,7 @@ class Equipment {
     }
 
     updateEquips(equipment){
-        Equips.updateOne({_id: this._id}, {$set: equipment})
+        return Equips.updateOne({_id: this._id}, {$set: equipment})
     }
 }
 
